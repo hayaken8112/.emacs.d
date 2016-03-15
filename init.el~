@@ -1,4 +1,4 @@
-(defvar user-emacs-directory "~/.emacs.d/")
+(defvar user-emacs-directory "home/hayaken/.emacs.d/")
 ;;load-pathを追加する関数を定義
 (defun add-to-load-path (&rest paths)
   (let (path)
@@ -41,12 +41,17 @@
 (line-number-mode t)(column-number-mode t)
 
 ;;Auto Complete Modeの設定
-(add-to-list 'load-path "~/.emacs.d/elisp/")
-(require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories "~/.emacs.d/elisp/ac-dict")
-(ac-config-default)
-(add-hook 'auto-complete-mode-hook
-(lambda ()
-(define-key ac-completing-map "\r" 'ac-stop) ;;returnで自動補完停止 
-(define-key ac-completing-map " " 'ac-complete) ;;スペースで確定 
+
+;;Cの全自動インデント設定
+(add-hook 'c-mode-hook
+
+'(lambda ()
+(c-set-style "k&r") ;;k&rスタイル
+(setq c-auto-newline t) ;自動インデントを有効にする
+(setq tab-width 4) ;;タブ幅４
+(setq c-basic-offset 4) ;;基本タブ幅４
+(setq indent-tabs-mode nil) ;インデントは空白文字で行う
+(c-set-offset 'arglist-close 0) ;関数の引数リストの閉じ括弧はインデントしない
 ))
+
+	  
