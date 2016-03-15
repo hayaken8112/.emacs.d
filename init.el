@@ -132,7 +132,6 @@
 ;;行コピ
 (global-set-key (kbd "M-k") 'copy-whole-line)
 
-;;検索ハイライト
 (defun keep-highlight-regexp (re)
   (interactive "sRegexp: \n")
   (make-face 'my-highlight-face)
