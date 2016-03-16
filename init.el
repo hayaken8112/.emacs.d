@@ -1,4 +1,5 @@
 (defvar user-emacs-directory "~/.emacs.d/")
+(global-set-key "\M-g" 'goto-line) ;指定の行に移る
 ;;load-pathを追加する関数を定義
 (defun add-to-load-path (&rest paths)
   (let (path)
@@ -54,4 +55,72 @@
 (c-set-offset 'arglist-close 0) ;関数の引数リストの閉じ括弧はインデントしない
 ))
 
+;;cppの全自動インデント設定
+; style I want to use in c++ mode
+(c-add-style "my-style" 
+	     '("stroustrup"
+	       (indent-tabs-mode . nil)        ; use spaces rather than tabs
+	       (c-basic-offset . 4)            ; indent by four spaces
+	       (c-offsets-alist . ((inline-open . 0)  ; custom indentation rules
+				   (brace-list-open . 0)
+				   (statement-case-open . +)))))
+
+(defun my-c++-mode-hook ()
+  (c-set-style "my-style")        ; use my-style defined above
+  (auto-fill-mode)         
+  (c-toggle-auto-hungry-state 1))
+
+(add-hook 'c++-mode-hook 'my-c++-mode-hook)
+
+;;Ruby-mode
+(custom-set-variables
+ '(ruby-insert-encoding-magic-comment nil))
+
+(require 'ruby-mode)
+(defun ruby-mode-set-encoding () nil)
+(add-to-list 'auto-mode-alist '("\\.rb\\'" . ruby-mode))
+(autoload 'ruby-mode "ruby-mode" "Major mode for editing Ruby code" t)
+
+;Automatic indentation
+(add-hook 'ruby-mode-hook
+          '(lambda ()
+             (setq tab-width 2)
+             (setq ruby-indent-level tab-width)
+             (setq ruby-deep-indent-paren-style nil)
+             (local-set-key"\r" 'newline-and-indent)))
+(defadvice ruby-indent-line (after unindent-closing-paren activate)
+  (let ((column (current-column))
+        indent offset)
+    (save-excursion
+      (back-to-indentation)
+      (let ((state (syntax-ppss)))
+        (setq offset (- column (current-column)))
+        (when (and (eq (char-after) ?\))
+                   (not (zerop (car state))))
+          (goto-char (cadr state))
+          (setq indent (current-indentation)))))
+    (when indent
+      (indent-line-to indent)
+      (when (> offset 0) (forward-char offset)))))
+(require 'ruby-block)
+(ruby-block-mode t)
+(setq ruby-block-highlight-toggle t)
+
+;Electric commands
+
+
+
+
+;;auto-installの設定
+;;(when (require 'auto-install nil t)
+  ;;インストールディレクトリの設定。初期値は~/.emacs.d/auto-install/
+  ;;(setq auto-install-directory "~/.emacs.d/elisp/")
+  ;;EmacsWikiに登録されているelispの名前を取得
+  ;;(auto-install-update-emacswiki-package-name t)
+  ;;必要であればプロキシの設定を行う
+  ;;(set url-prozy-services '(("http" . "localhost:8339")))
+;;install-elispの関数を利用可能にする
+  ;;(auto-install-compatibility-setup))
 	  
+
+(put 'upcase-region 'disabled nil)
