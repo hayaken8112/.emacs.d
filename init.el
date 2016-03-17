@@ -1,7 +1,6 @@
-<<<<<<< HEAD
 (defvar user-emacs-directory "~/.emacs.d/")
 (global-set-key "\M-g" 'goto-line) ;指定の行に移る
-=======
+
 (defvar user-emacs-directory "home/hayaken/.emacs.d/")
 ;; ~/.emacs.d/site-lisp 以下全部読み込み
 (let ((default-directory (expand-file-name "~/.emacs.d/site-lisp")))
@@ -50,7 +49,6 @@
   (global-auto-complete-mode t))
 
 (my-ac-config)
->>>>>>> b1b29afdcb4cb11ba7d46782a72078a25ed84243
 ;;load-pathを追加する関数を定義
 (defun add-to-load-path (&rest paths)
   (let (path)
@@ -82,7 +80,7 @@
      (:background "NavyBlue" t))
     ;;背景がlightならば緑
     (((class color) (background light))
-     (:background "LightGoldenrodYellow" t))
+     (:background "Blue" t))
     (t (:blod t)))
   "hl-line's my face")
 (setq hl-line-face 'my-hl-line-face)
@@ -187,10 +185,9 @@
 ;;install-elispの関数を利用可能にする
   ;;(auto-install-compatibility-setup))
 	  
-<<<<<<< HEAD
 
 (put 'upcase-region 'disabled nil)
-=======
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -226,4 +223,4 @@
 
 (global-set-key "\C-s" 'keep-highlight-regexp)
 (global-set-key "\C-d" 'cancel-highlight-regexp)
->>>>>>> b1b29afdcb4cb11ba7d46782a72078a25ed84243
+
